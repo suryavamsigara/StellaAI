@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import Sidebar from './Sidebar.jsx';
 import MainContent from './MainContent.jsx';
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
 import axios from "axios";
 
 function App() {
@@ -18,6 +20,11 @@ function App() {
     { id: 3, title: 'Astronomy Basics', date: '2024-03-18' },
   ]);
   const [activeChat, setActiveChat] = useState(null);
+  
+  // Authentication states
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [user, setUser] = useState(null);
 
   const executePythonCode = async (code) => {
     try {

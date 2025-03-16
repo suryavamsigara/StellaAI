@@ -5,12 +5,14 @@ function Sidebar({
   onNewChat,
   onChatSelect,
   onLogin,
-  onSignup
+  onSignup,
+  user,
+  onLogout
 }) {
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
-        <h2>Cosmo</h2>
+        <h2>Stella AI</h2>
       </div>
       <button className="new-chat-button" onClick={onNewChat}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

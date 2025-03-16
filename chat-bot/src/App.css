@@ -258,7 +258,7 @@ body {
 }
 
 .message-content .heading-1 {
-  font-size: 1.2rem;
+  font-size: 1.06rem;
   font-weight: 50;
   margin: 2rem 0 1.2rem;
   color: #ffffff;
@@ -268,7 +268,7 @@ body {
 
 .message-content .heading-2 {
   font-size: 1.5rem;
-  font-weight: 100;
+  font-weight: 70;
   margin: 1.8rem 0 1rem;
   color: #ffffff;
   padding-bottom: 0.3rem;
@@ -277,7 +277,7 @@ body {
 
 .message-content .heading-3 {
   font-size: 1.5rem;
-  font-weight: 30;
+  font-weight: 100;
   margin: 1.5rem 0 0.8rem;
   color: #ffffff;
 }

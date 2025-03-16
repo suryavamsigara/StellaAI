@@ -31,7 +31,7 @@ function MainContent({
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        <h1>Cosmo</h1>
+        <h1>Stella AI</h1>
       </header>
       
       <div className="chat-container">

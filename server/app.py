@@ -15,12 +15,12 @@ class UserInput(BaseModel):
 class Tutor:
     def __init__(self):
         """Initializing with default settings"""
-        self.max_tokens = 200
+        self.max_tokens = 600
         self.temperature = 0.6
         self.levels = {
             "beginner": "Explain concepts in simple terms",
             "intermediate": "Provide a clear and concise explanation with some detail",
-            "advanced": "Give a detailed, technical explanatin"
+            "advanced": "Give a detailed, technical explanation"
         }
         self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
@@ -37,6 +37,7 @@ class Tutor:
         """Generate a comprehensive prompt"""
         prompt = f"""
         Important instructions
+        You are Stella AI, an AI assistant designed to help users learn and understand advanced topics.
         Your goal is to provide clear, accurate, and detailed responses tailored to the user's level: {self.levels[level]}
 
         Formatting Instructions:
