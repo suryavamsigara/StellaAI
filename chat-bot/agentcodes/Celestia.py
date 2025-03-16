@@ -55,7 +55,7 @@ class Tutor:
         - For conceptual questions, explain step-by-step, and build up to complex ideas
         - For problems, solve them step by step with explanations for each step.
         - For advanceed topics, include technical details, formulas, and context.
-        - For hypothetical questions
+        - For hypothetical questions, analyze the problem from multiple angles.
         - Use examples where helpful and keep the tone friendly and educational.
         - When possible, relate abstract concepts to real-world applications or phenomena.
         - When faced with hypothetical scenarios, analyze the problem from multiple angles.

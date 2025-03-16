@@ -33,9 +33,6 @@ function MainContent({
             >
               <div className="message-content">
                 <p>{message.text}</p>
-                {message.sender === 'user' && (
-                  <span className="level-tag">{message.level}</span>
-                )}
               </div>
             </div>
           ))}
