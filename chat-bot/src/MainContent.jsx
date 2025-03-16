@@ -6,7 +6,9 @@ function MainContent({
   level,
   onInputChange,
   onLevelChange,
-  onSubmit
+  onSubmit,
+  isStreaming,
+  streamingContent
 }) {
   return (
     <main className="main-content">
@@ -33,9 +35,25 @@ function MainContent({
             >
               <div className="message-content">
                 <p>{message.text}</p>
+                {message.sender === 'user' && message.level && (
+                  <span className="level-tag">{message.level}</span>
+                )}
               </div>
             </div>
           ))}
+          
+          {isStreaming && (
+            <div className="message tutor-message">
+              <div className="message-content">
+                <p>{streamingContent}</p>
+                <span className="typing-indicator">
+                  <span className="dot"></span>
+                  <span className="dot"></span>
+                  <span className="dot"></span>
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         <form className="input-form" onSubmit={onSubmit}>
@@ -44,6 +62,7 @@ function MainContent({
               value={level}
               onChange={(e) => onLevelChange(e.target.value)}
               className="level-select"
+              disabled={isStreaming}
             >
               <option value="beginner">Beginner</option>
               <option value="intermediate">Intermediate</option>
@@ -54,16 +73,79 @@ function MainContent({
               type="text"
               value={inputMessage}
               onChange={(e) => onInputChange(e.target.value)}
-              placeholder="Type your science question here..."
+              placeholder="Type your question here..."
               className="message-input"
+              disabled={isStreaming}
             />
             
-            <button type="submit" className="send-button">
-              Send
+            <button 
+              type="submit" 
+              className={`send-button ${isStreaming ? 'disabled' : ''}`}
+              disabled={isStreaming}
+            >
+              {isStreaming ? 'Generating...' : 'Send'}
             </button>
           </div>
         </form>
       </div>
+
+      <style>{`
+        .typing-indicator {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 4px 8px;
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          margin-top: 8px;
+        }
+
+        .dot {
+          width: 6px;
+          height: 6px;
+          background: #666;
+          border-radius: 50%;
+          animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+          0%, 80%, 100% { transform: scale(0); }
+          40% { transform: scale(1); }
+        }
+
+        .send-button.disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .message-input:disabled,
+        .level-select:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .messages {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          padding: 20px;
+          overflow-y: auto;
+          flex-grow: 1;
+        }
+
+        .message-content {
+          position: relative;
+          word-break: break-word;
+        }
+
+        .message-content p {
+          margin: 0;
+          line-height: 1.5;
+        }
+      `}</style>
     </main>
   );
 }

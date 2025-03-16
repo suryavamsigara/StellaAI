@@ -2,8 +2,9 @@ from openai import OpenAI
 from pydantic import BaseModel
 from sympy import symbols, solve, Eq
 import re
-from typing import Dict, List
+from typing import Dict, List, Generator
 import os
+import sys
 
 client = OpenAI(
     api_key = os.getenv('OPENAI_API_KEY')
@@ -16,7 +17,7 @@ class UserInput(BaseModel):
 class Tutor:
     def __init__(self):
         """Initializing with default settings"""
-        self.max_tokens = 600
+        self.max_tokens = 100
         self.temperature = 0.6
         self.levels = {
             "beginner": "Explain concepts in simple terms",
@@ -25,14 +26,12 @@ class Tutor:
         }
 
     def get_user_input(self) -> Dict:
-        """Get the propmt"""
-        print("Welcome")
 
         question = input("What do you want to learn?: ")
         level = input("What is your current level?: ").lower()
 
-        while level not in self.levels:
-            level = input("Please choose: beginner, intermediate, or advanced: ").lower()
+        #while level not in self.levels:
+        #    level = input("Please choose: beginner, intermediate, or advanced: ").lower()
 
 
         # Validating with pydantic
@@ -40,11 +39,12 @@ class Tutor:
         return user_input.model_dump()
 
     
-    def generate_content(self, question: str, level: str) -> str:
+    def generate_content(self, question: str, level: str) -> None:
         """Generate educational content based on user's question and level"""
         prompt = self.generate_prompt(question, level)
-        response = self.ask_openai(prompt)
-        return response
+        for chunk in self.ask_openai(prompt):
+            print(chunk, end='', flush=True)
+        print("\n")
 
 
     def generate_prompt(self, question: str, level="intermediate"):
@@ -65,8 +65,8 @@ class Tutor:
         """
         return prompt
     
-    def ask_openai(self, prompt: str) -> str:
-        """Call OpenAI's API to generate a response"""
+    def ask_openai(self, prompt: str) -> Generator[str, None, None]:
+        """Call OpenAI's API to generate a streaming response"""
         response = client.chat.completions.create(
             model="gpt-4o",
             messages = [
@@ -75,14 +75,21 @@ class Tutor:
             ],
             temperature=self.temperature,
             max_tokens=self.max_tokens,
+            stream=True  # Enable streaming
         )
-        return response.choices[0].message.content
+        
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                yield chunk.choices[0].delta.content
     
     def run(self):
         """Run the tutor"""
-        while True:
-            user_input = self.get_user_input()
-            question = user_input["question"]
-            level = user_input["level"]
-            answer = self.generate_content(question, level)
-            print(f"\nAnswer:\n{answer}\n")
+        user_input = self.get_user_input()
+        question = user_input["question"]
+        level = user_input["level"]
+        print("\nAnswer:")
+        self.generate_content(question, level)
+
+if __name__ == "__main__":
+    tutor = Tutor()
+    tutor.run()
