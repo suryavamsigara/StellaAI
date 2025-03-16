@@ -1,3 +1,8 @@
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
+
 function MainContent({
   isSidebarOpen,
   onToggleSidebar,
@@ -37,7 +42,16 @@ function MainContent({
               className={`message ${message.sender === 'user' ? 'user-message' : 'tutor-message'}`}
             >
               <div className="message-content">
-              <p style={{ whiteSpace: 'pre-wrap' }}>{message.text}</p>
+                <ReactMarkdown 
+                  remarkPlugins={[remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                  components={{
+                    h1: ({node, ...props}) => <h1 className="heading-1" {...props} />,
+                    h2: ({node, ...props}) => <h2 className="heading-2" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="heading-3" {...props} />,
+                    p: ({node, ...props}) => <p className="paragraph" {...props} />,
+                  }}
+                >{message.text}</ReactMarkdown>
                 {message.sender === 'user'}
               </div>
             </div>
@@ -46,7 +60,16 @@ function MainContent({
           {isStreaming && (
             <div className="message tutor-message">
               <div className="message-content">
-                <p>{streamingContent}</p>
+                <ReactMarkdown
+                  remarkPlugins={[remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                  components={{
+                    h1: ({node, ...props}) => <h1 className="heading-1" {...props} />,
+                    h2: ({node, ...props}) => <h2 className="heading-2" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="heading-3" {...props} />,
+                    p: ({node, ...props}) => <p className="paragraph" {...props} />,
+                  }}
+                >{streamingContent}</ReactMarkdown>
                 <span className="typing-indicator">
                   <span className="dot"></span>
                   <span className="dot"></span>
@@ -78,7 +101,6 @@ function MainContent({
               className="message-input"
               disabled={isStreaming}
             />
-
             
             <button 
               type="submit" 
@@ -90,74 +112,6 @@ function MainContent({
           </div>
         </form>
       </div>
-
-      <style>{`
-        .python-input {
-          width: 100%;
-          margin-top: 10px;
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          resize: vertical;
-        }
-
-        .typing-indicator {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          padding: 4px 8px;
-          background: rgba(0, 0, 0, 0.1);
-          border-radius: 12px;
-          margin-top: 8px;
-        }
-
-        .dot {
-          width: 6px;
-          height: 6px;
-          background: #666;
-          border-radius: 50%;
-          animation: bounce 1.4s infinite ease-in-out;
-        }
-
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes bounce {
-          0%, 80%, 100% { transform: scale(0); }
-          40% { transform: scale(1); }
-        }
-
-        .send-button.disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .message-input:disabled,
-        .python-input:disabled,
-        .level-select:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .messages {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          padding: 20px;
-          overflow-y: auto;
-          flex-grow: 1;
-        }
-
-        .message-content {
-          position: relative;
-          word-break: break-word;
-        }
-
-        .message-content p {
-          margin: 0;
-          line-height: 1.5;
-        }
-      `}</style>
     </main>
   );
 }

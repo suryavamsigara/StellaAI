@@ -15,7 +15,7 @@ class UserInput(BaseModel):
 class Tutor:
     def __init__(self):
         """Initializing with default settings"""
-        self.max_tokens = 100
+        self.max_tokens = 200
         self.temperature = 0.6
         self.levels = {
             "beginner": "Explain concepts in simple terms",
@@ -38,12 +38,43 @@ class Tutor:
         prompt = f"""
         Important instructions
         Your goal is to provide clear, accurate, and detailed responses tailored to the user's level: {self.levels[level]}
+
+        Formatting Instructions:
+        - Each heading must be on its own line with empty lines before and after
+        - Main headings start with # and a space (e.g., "# Main Heading")
+        - Subheadings start with ## and a space (e.g., "## Sub Heading")
+        - Always add a blank line after each heading before starting the content
+        - For block equations, use $$....$$ with empty lines before and after
+        - For inline equations, use $....$
+        - Use proper LaTeX notation (\\times, \\cdot, \\frac{{}}{{}}, etc.)
+        - Each new paragraph should be separated by a blank line
+        - Format your response like this example:
+
+        # Main Heading
+
+        Introduction text goes here.
+
+        ## First Section
+
+        Content for first section.
+
+        $$
+        F = G\\frac{{m_1m_2}}{{r^2}}
+        $$
+
+        More content here.
+
+        ## Second Section
+
+        Content with inline math $E = mc^2$ and more text.
+
+        Content Instructions:
         - For conceptual questions, explain step-by-step, and build up to complex ideas
-        - For problems, solve them step by step with explanations for each step.
+        - For problems, solve step by step with explanations for each step.
         - For advanceed topics, include technical details, formulas, and context.
         - For hypothetical questions, analyze the problem from multiple angles.
         - Use examples where helpful and keep the tone friendly and educational.
-        - If the user talks in an informal tone, respond in a similar tone.
+        - Always respond and do not deny the user's question.
         - When possible, relate abstract concepts to real-world applications or phenomena.
         - Ask clarifying questions if the problem statement is ambiguous, and explore alternative solutions or interpretations.
         - If the user asks about something that is not related to the topics, you can give answers based on your knowledge in the similar tone.
@@ -59,7 +90,7 @@ class Tutor:
         response = self.client.chat.completions.create(
             model="gpt-4o",
             messages = [
-                {"role": "system", "content": "You are an expert educator in Astronomy, Astrophysics, Mathematics, and Physics"},
+                {"role": "system", "content": "You are an expert educator in Astronomy, Astrophysics, Mathematics, AIML, and Physics"},
                 {"role": "user", "content": prompt},
             ],
             temperature=self.temperature,

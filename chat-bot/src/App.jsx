@@ -14,8 +14,7 @@ function App() {
   const [streamingContent, setStreamingContent] = useState('');
   const [pythonOutput, setPythonOutput] = useState('');
   const [chats, setChats] = useState([
-    { id: 1, title: 'Quantum Physics Discussion', date: '2024-03-20' },
-    { id: 2, title: 'Chemical Reactions', date: '2024-03-19' },
+    { id: 1, title: 'Quantum Physics', date: '2024-03-20' },
     { id: 3, title: 'Astronomy Basics', date: '2024-03-18' },
   ]);
   const [activeChat, setActiveChat] = useState(null);
