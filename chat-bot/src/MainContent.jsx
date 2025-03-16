@@ -6,9 +6,12 @@ function MainContent({
   level,
   onInputChange,
   onLevelChange,
+  onPythonCodeChange,
+  pythonCode,
   onSubmit,
   isStreaming,
-  streamingContent
+  streamingContent,
+  pythonOutput
 }) {
   return (
     <main className="main-content">
@@ -34,10 +37,8 @@ function MainContent({
               className={`message ${message.sender === 'user' ? 'user-message' : 'tutor-message'}`}
             >
               <div className="message-content">
-                <p>{message.text}</p>
-                {message.sender === 'user' && message.level && (
-                  <span className="level-tag">{message.level}</span>
-                )}
+              <p style={{ whiteSpace: 'pre-wrap' }}>{message.text}</p>
+                {message.sender === 'user'}
               </div>
             </div>
           ))}
@@ -77,6 +78,7 @@ function MainContent({
               className="message-input"
               disabled={isStreaming}
             />
+
             
             <button 
               type="submit" 
@@ -90,6 +92,15 @@ function MainContent({
       </div>
 
       <style>{`
+        .python-input {
+          width: 100%;
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          resize: vertical;
+        }
+
         .typing-indicator {
           display: inline-flex;
           align-items: center;
@@ -122,6 +133,7 @@ function MainContent({
         }
 
         .message-input:disabled,
+        .python-input:disabled,
         .level-select:disabled {
           opacity: 0.6;
           cursor: not-allowed;

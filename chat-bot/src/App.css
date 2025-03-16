@@ -220,27 +220,31 @@ body {
   animation: slideIn 0.3s ease-out;
   word-break: break-word;
   overflow-wrap: break-word;
+  text-align: left;
 }
 
 .user-message {
   align-self: flex-end;
-  background: linear-gradient(135deg, var(--gray-gradient-light), var(--gray-gradient-dark));
+  background-color: #323840;
   color: white;
   border-radius: 16px 16px 4px 16px;
+  font-size: 1.1rem;
 }
 
 .tutor-message {
   align-self: flex-start;
-  background-color: white;
-  color: var(--gray-dark);
+  background-color: #2D2D2D;
+  color: #ffffff;
   border-radius: 16px 16px 16px 4px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid #3D3D3D;
+  font-size: 1.1rem;
 }
 
 .message-content {
   position: relative;
   max-width: 100%;
   overflow: hidden;
+  text-align: left;
 }
 
 .message-content p {
@@ -248,6 +252,7 @@ body {
   white-space: pre-wrap;
   overflow-wrap: break-word;
   word-break: break-word;
+  text-align: left;
 }
 
 .level-tag {
@@ -293,7 +298,7 @@ body {
 }
 
 .message-input::placeholder {
-  color: #f5f5f5;
+  color: #5a5a5a;
 }
 
 .message-input:focus {
@@ -304,7 +309,7 @@ body {
 
 .level-select {
   padding: 0.875rem;
-  color: white;
+  color: rgb(132, 132, 132);
   border: none;
   border-radius: var(--border-radius);
   font-size: 1rem;
